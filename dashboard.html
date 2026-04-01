@@ -80,27 +80,51 @@
             background-color: #28ab9f;
         }
 
-        /* Navbar Kustom (Kalau ada) */
-        .navbar {
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
-            background-color: #87CEEB !important;
+            /* Pastikan teks navbar kelihatan jelas */
+        .navbar-brand {
+            letter-spacing: -1px;
         }
-    </style>
+        .nav-link {
+            color: #4b5563 !important; /* Warna abu gelap biar kebaca */
+            transition: 0.3s;
+        }
+        .nav-link:hover {
+            color: #4361ee !important; /* Berubah jadi biru pas disentuh */
+        }
+        .navbar {
+            border-bottom: 1px solid #f1f5f9; /* Garis tipis biar kelihatan batasnya */
+        }
+ </style>
 
 </head>
 <body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="dashboard.html">Casper Learning</a>
-            <div class="d-flex">
-                <a href="lapor.html" class="btn btn-outline-light btn-sm me-2 fw-bold">📝 Lapor Kelas</a>
-                    <div class="d-flex">
-                        <a href="materi.html" class="btn btn-outline-light btn-sm me-2 fw-bold">Materi Ajar</a>
-                <button class="btn btn-danger btn-sm fw-bold">Logout</button>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="dashboard.html" style="font-size: 1.5rem;">
+            👻 Casper<span class="text-dark">Learning</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold px-3" href="dashboard.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold px-3 text-primary" href="lapor.html">Lapor Kelas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold px-3" href="materi.html">Materi</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-outline-danger btn-sm ms-lg-3 mt-2 mt-lg-0" id="btnLogout">Keluar</button>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="container mt-4">
         <h4 class="mb-4">Halo, Tutor! 👋 <br>
