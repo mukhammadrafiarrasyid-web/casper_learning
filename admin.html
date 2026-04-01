@@ -194,28 +194,6 @@
     </div>
 </div>
 
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-const db = getFirestore(app);
-const tabelLaporan = document.getElementById('tabelLaporan');
-
-async function muatLaporan() {
-    const querySnapshot = await getDocs(collection(db, "laporan_kelas"));
-    tabelLaporan.innerHTML = ""; // Bersihkan loading
-    querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        tabelLaporan.innerHTML += `
-            <tr>
-                <td><span class="badge bg-light text-dark">${data.tutor_email || 'Tutor A'}</span></td>
-                <td><strong>${data.nama_murid}</strong></td>
-                <td>${data.durasi_menit} Menit</td>
-                <td><small class="text-muted">${data.catatan.substring(0, 30)}...</small></td>
-            </tr>
-        `;
-    });
-}
-muatLaporan();
-
 </body>
 
 </html>
