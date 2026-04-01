@@ -109,15 +109,6 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <h4 class="mb-4">Halo, Tutor! 👋 <br>
-            <small class="text-muted fs-6">Berikut jadwal lelang yang tersedia untuk diambil:</small>
-        </h4>
-
-        <div class="row" id="jadwalContainer">
-
-        </div>
-    </div>
 
 <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -125,7 +116,13 @@
 
         // TODO: PASTE FIREBASE CONFIG MILIKMU DI SINI JUGA
         const firebaseConfig = {
-            // ... (Samakan dengan yang di index.html)
+            apiKey: "AIzaSyBW4UcmFjgsNvZiXhqajvYBp1qxt4fNyTc",
+            authDomain: "portal-tutor-casper.firebaseapp.com",
+            projectId: "portal-tutor-casper",
+            storageBucket: "portal-tutor-casper.firebasestorage.app",
+            messagingSenderId: "825179378295",
+            appId: "1:825179378295:web:fb112ec8a35c344816ec72",
+            measurementId: "G-1EK8TQQ786"
         };
 
         const app = initializeApp(firebaseConfig);
