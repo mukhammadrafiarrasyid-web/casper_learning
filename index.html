@@ -119,11 +119,8 @@
         </div>
     </div>
         
-</body>
-
-</html>
-<script js>
-// Proses Login ke Firebase
+        <script src="script.js">
+            // Proses Login ke Firebase
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     alert("Login Berhasil! Selamat datang.");
@@ -141,4 +138,8 @@
                     alert("Login Gagal: Cek kembali email dan password!");
                     console.error(error.message);
                 });
-</script>
+        </script>
+
+</body>
+
+</html>
