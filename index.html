@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portal Tutor</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
+
+    <div class="card shadow-sm" style="width: 100%; max-width: 400px;">
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4 fw-bold text-primary">Login Tutor Casper</h3>
+            <p class="text-center text-muted mb-4">Silakan login</p>
+            
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Tutor</label>
+                    <input type="email" class="form-control" id="email" placeholder="nama@email.com" required>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="********" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 fw-bold">Masuk</button>
+            </form>
+            
+        </div>
+    </div>
+
+<script type="module">
+        // Import Firebase dari internet (CDN)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+        apiKey: "AIzaSyBW4UcmFjgsNvZiXhqajvYBp1qxt4fNyTc",
+        authDomain: "portal-tutor-casper.firebaseapp.com",
+        projectId: "portal-tutor-casper",
+        storageBucket: "portal-tutor-casper.firebasestorage.app",
+        messagingSenderId: "825179378295",
+        appId: "1:825179378295:web:fb112ec8a35c344816ec72",
+        measurementId: "G-1EK8TQQ786"
+        };
+
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Menangkap aksi saat tombol login ditekan
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Mencegah halaman reload
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Proses Login ke Firebase
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Login Berhasil! Selamat datang.");
+                    window.location.href = "dashboard.html"; // Pindah ke dashboard
+                })
+                .catch((error) => {
+                    alert("Login Gagal: Cek kembali email dan password!");
+                    console.error(error.message);
+                });
+        });
+    </script>
+</body>
+</html>

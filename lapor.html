@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lapor Kelas - Portal Tutor</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="dashboard.html">Casper Learning</a>
+            <div class="d-flex">
+                <a href="dashboard.html" class="btn btn-outline-light btn-sm me-2 fw-bold">🏠 Dashboard</a>
+                <button class="btn btn-danger btn-sm fw-bold">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                
+                <h4 class="mb-4 text-center">Form Laporan Kelas 📝<br>
+                    <small class="text-muted fs-6">Isi data di bawah ini setelah selesai mengajar.</small>
+                </h4>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <form id="formLapor">
+                            
+                            <div class="mb-3">
+                                <label for="namaMurid" class="form-label fw-semibold">Nama Murid</label>
+                                <input type="text" class="form-control" id="namaMurid" placeholder="Contoh: Budi - Matematika " required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="kelas" class="form-label fw-semibold"> Kelas </label>
+                                :<input type="text" class="form-control" id="kelas" placeholder="Contoh: 10 SMA" required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label for="tanggalKelas" class="form-label fw-semibold">Tanggal</label>
+                                    <input type="date" class="form-control" id="tanggalKelas" required>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="durasi" class="form-label fw-semibold">Durasi (Menit)</label>
+                                    <input type="number" class="form-control" id="durasi" placeholder="Misal: 60" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="catatan" class="form-label fw-semibold">Catatan Progres Belajar</label>
+                                <textarea class="form-control" id="catatan" rows="3" placeholder="Materi apa yang dibahas hari ini? Apakah ada kendala?" required></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="buktiScreenshot" class="form-label fw-semibold">Upload Bukti Kelas (Screenshot)</label>
+                                <input class="form-control" type="file" id="buktiScreenshot" accept="image/*" required>
+                                <div class="form-text">Pastikan screenshot terlihat jelas.</div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success w-100 fw-bold py-2">Kirim Laporan</button>
+                            
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+
+        // TODO: PASTE FIREBASE CONFIG MILIKMU DI SINI JUGA
+        const firebaseConfig = {
+            // ... (Samakan dengan yang di index.html)
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        const formLapor = document.getElementById('formLapor');
+        const submitBtn = formLapor.querySelector('button[type="submit"]');
+
+        formLapor.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Cegah reload
+            
+            // Ubah tombol jadi loading biar user ngga ngeklik 2 kali
+            submitBtn.innerHTML = "Mengirim Laporan...";
+            submitBtn.disabled = true;
+
+            const namaMurid = document.getElementById('namaMurid').value;
+            const tanggalKelas = document.getElementById('tanggalKelas').value;
+            const durasi = document.getElementById('durasi').value;
+            const catatan = document.getElementById('catatan').value;
+            const file = document.getElementById('buktiScreenshot').files[0];
+
+            try {
+                // 1. Upload Gambar dulu ke Firebase Storage
+                // Bikin folder "bukti_kelas" di Storage, dengan nama file gabungan waktu + nama asli
+                const storageRef = ref(storage, `bukti_kelas/${Date.now()}_${file.name}`);
+                const uploadResult = await uploadBytes(storageRef, file);
+                
+                // 2. Ambil link URL gambar yang udah ter-upload
+                const urlGambar = await getDownloadURL(uploadResult.ref);
+
+                // 3. Simpan data teks + URL gambar ke Firestore Database
+                await addDoc(collection(db, "laporan_kelas"), {
+                    nama_murid: namaMurid,
+                    tanggal: tanggalKelas,
+                    durasi_menit: Number(durasi),
+                    catatan: catatan,
+                    url_bukti: urlGambar,
+                    waktu_submit: new Date() // Otomatis catat waktu pelaporan
+                });
+
+                alert("Laporan berhasil dikirim! Terima kasih, Tutor.");
+                formLapor.reset(); // Bersihkan form
+                
+            } catch (error) {
+                console.error("Error mengirim laporan: ", error);
+                alert("Gagal mengirim laporan. Cek console log.");
+            } finally {
+                // Kembalikan tombol ke semula
+                submitBtn.innerHTML = "Kirim Laporan";
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>
