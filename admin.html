@@ -165,34 +165,42 @@
 
         // Jalankan fungsi saat halaman dibuka
         tampilkanJadwal();
+    </script>
+        <script type="module">
+                    async function muatLaporan() {
+                const querySnapshot = await getDocs(collection(db, "laporan_kelas"));
+                let totalFeeAgensi = 0;
+                tabelLaporan.innerHTML = ""; 
 
-        async function muatLaporan() {
-    const querySnapshot = await getDocs(collection(db, "laporan_kelas"));
-    let totalFeeAgensi = 0;
-    tabelLaporan.innerHTML = ""; 
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    
+                    // LOGIKA FEE: Misal per menit Rp 1.000 (Sesuaikan dengan kebijakanmu)
+                    const tarifPerMenit = 1000; 
+                    const estimasiFee = data.durasi_menit * tarifPerMenit;
+                    totalFeeAgensi += estimasiFee;
 
-    querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        
-        // LOGIKA FEE: Misal per menit Rp 1.000 (Sesuaikan dengan kebijakanmu)
-        const tarifPerMenit = 1000; 
-        const estimasiFee = data.durasi_menit * tarifPerMenit;
-        totalFeeAgensi += estimasiFee;
+                    tabelLaporan.innerHTML += `
+                        <tr>
+                            <td><span class="badge bg-info">${data.tutor_email || 'Tutor'}</span></td>
+                            <td><strong>${data.nama_murid}</strong></td>
+                            <td>${data.durasi_menit} Min</td>
+                            <td class="fw-bold text-success">Rp ${estimasiFee.toLocaleString('id-ID')}</td>
+                        </tr>
+                    `;
+                });
 
-        tabelLaporan.innerHTML += `
-            <tr>
-                <td><span class="badge bg-info">${data.tutor_email || 'Tutor'}</span></td>
-                <td><strong>${data.nama_murid}</strong></td>
-                <td>${data.durasi_menit} Min</td>
-                <td class="fw-bold text-success">Rp ${estimasiFee.toLocaleString('id-ID')}</td>
-            </tr>
-        `;
-    });
-
-    // Tampilkan Total di Atas Tabel
-    document.getElementById('totalPengeluaran').innerText = `Total Fee Bulan Ini: Rp ${totalFeeAgensi.toLocaleString('id-ID')}`;
-}
-    </script>   
+                // Tampilkan Total di Atas Tabel
+                document.getElementById('totalPengeluaran').innerText = `Total Fee Bulan Ini: Rp ${totalFeeAgensi.toLocaleString('id-ID')}`;
+            }
+        </script>   
+        <script type="module">
+                        document.getElementById('btnLogout')?.addEventListener('click', () => {
+                auth.signOut().then(() => {
+                    window.location.href = "index.html";
+                });
+            });
+        </script>
     
     <div class="container mt-5">
     <h2 class="fw-bold mb-4">Dashboard Admin: Laporan Tutor</h2>
