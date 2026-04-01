@@ -169,6 +169,33 @@
 
         // Jalankan fungsi saat halaman dibuka
         tampilkanJadwal();
+
+        async function muatLaporan() {
+    const querySnapshot = await getDocs(collection(db, "laporan_kelas"));
+    let totalFeeAgensi = 0;
+    tabelLaporan.innerHTML = ""; 
+
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        
+        // LOGIKA FEE: Misal per menit Rp 1.000 (Sesuaikan dengan kebijakanmu)
+        const tarifPerMenit = 1000; 
+        const estimasiFee = data.durasi_menit * tarifPerMenit;
+        totalFeeAgensi += estimasiFee;
+
+        tabelLaporan.innerHTML += `
+            <tr>
+                <td><span class="badge bg-info">${data.tutor_email || 'Tutor'}</span></td>
+                <td><strong>${data.nama_murid}</strong></td>
+                <td>${data.durasi_menit} Min</td>
+                <td class="fw-bold text-success">Rp ${estimasiFee.toLocaleString('id-ID')}</td>
+            </tr>
+        `;
+    });
+
+    // Tampilkan Total di Atas Tabel
+    document.getElementById('totalPengeluaran').innerText = `Total Fee Bulan Ini: Rp ${totalFeeAgensi.toLocaleString('id-ID')}`;
+}
     </script>   
     
     <div class="container mt-5">
@@ -191,6 +218,10 @@
     </div>
 </div>
 
+    <div class="alert alert-success d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold" id="totalPengeluaran">Menghitung total fee...</h5>
+        <button class="btn btn-success btn-sm">Download Rekap (Excel)</button>
+    </div>
 
 </body>
 
