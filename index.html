@@ -119,26 +119,46 @@
         </div>
     </div>
         
-        <script src="script.js">
-            // Proses Login ke Firebase
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    alert("Login Berhasil! Selamat datang.");
-                    
-                    // --- TRIK MVP: PISAHKAN AKSES ADMIN & TUTOR ---
-                    // Ganti email di bawah ini dengan email khusus admin kamu
-                    if (email === "bos@casper.com") {
-                        window.location.href = "admin.html"; // Lempar ke halaman Admin
-                    } else {
-                        window.location.href = "dashboard.html"; // Lempar ke halaman Tutor
-                    }
-                    
-                })
-                .catch((error) => {
-                    alert("Login Gagal: Cek kembali email dan password!");
-                    console.error(error.message);
-                });
-        </script>
+    <script type="module">
+    // 1. Import library yang dibutuhkan (WAJIB ADA)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+    // 2. Masukkan config asli kamu (Cek di Project Settings Firebase)
+    const firebaseConfig = {
+        apiKey: "AIzaSyB-...", 
+        authDomain: "portal-tutor-casper.firebaseapp.com",
+        projectId: "portal-tutor-casper",
+        storageBucket: "portal-tutor-casper.appspot.com",
+        messagingSenderId: "...",
+        appId: "..."
+    };
+
+    // 3. Inisialisasi
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // 4. Logika Login (Yang kamu ketik di GitHub tadi)
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                alert("Login Berhasil! Selamat datang.");
+                if (email === "bos@casper.com") {
+                    window.location.href = "admin.html";
+                } else {
+                    window.location.href = "dashboard.html";
+                }
+            })
+            .catch((error) => {
+                alert("Login Gagal: " + error.message);
+            });
+    });
+</script>
 
 </body>
 
