@@ -819,6 +819,35 @@
                 observer.observe(el);
             });
         });
+        // Inisialisasi Firebase (Dapat dari Project Settings Firebase)
+const firebaseConfig = {
+  apiKey: "AIzaSyBW4UcmFjgsNvZiXhqajvYBp1qxt4fNyTc",
+  authDomain: "portal-tutor-casper.firebaseapp.com",
+  databaseURL: "https://portal-tutor-casper-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "portal-tutor-casper",
+  storageBucket: "portal-tutor-casper.firebasestorage.app",
+  messagingSenderId: "825179378295",
+  appId: "1:825179378295:web:fb112ec8a35c344816ec72",
+  measurementId: "G-1EK8TQQ786"
+};
+
+// Ambil data dari koleksi 'siswa' secara Real-Time
+db.collection("siswa").onSnapshot((querySnapshot) => {
+    let htmlContent = "";
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        // Template baris tabel HTML
+        htmlContent += `
+            <tr>
+                <td>${data.identitas}</td>
+                <td>${data.paket}</td>
+                <td><progress value="${data.progress}" max="100"></progress></td>
+                <td>${data.status_bayar ? 'Lunas' : 'Belum'}</td>
+            </tr>
+        `;
+    });
+    // Masukkan ke dalam ID tabel di HTML kamu
+    document.getElementById("tabel-siswa").innerHTML = htmlContent;
     </script>
 </body>
 </html>
