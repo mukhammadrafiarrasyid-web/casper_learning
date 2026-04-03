@@ -1,853 +1,147 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - Agensi Les Privat WebDev</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Admin Dashboard - Agency WebDev</title>
+    <!-- Tailwind CSS untuk Styling Cepat & Modern -->
+    <script src="https://tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-            line-height: 1.6;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 260px;
-            height: 100vh;
-            background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
-            padding: 2rem 0;
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .nav-menu {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 1rem 2rem;
-            color: #cbd5e1;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: rgba(99, 102, 241, 0.2);
-            color: #6366f1;
-            border-right: 4px solid #6366f1;
-        }
-
-        .nav-link i {
-            width: 20px;
-            margin-right: 1rem;
-            font-size: 1.1rem;
-        }
-
-        /* MAIN LAYOUT */
-        .main-container {
-            margin-left: 260px;
-            min-height: 100vh;
-        }
-
-        /* HEADER */
-        .header {
-            background: white;
-            padding: 1.5rem 2rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        .breadcrumb a {
-            color: #6366f1;
-            text-decoration: none;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .notification, .message {
-            position: relative;
-            width: 40px;
-            height: 40px;
-            background: #f1f5f9;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64748b;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .notification:hover, .message:hover {
-            background: #e2e8f0;
-            transform: scale(1.05);
-        }
-
-        .notification::after {
-            content: '3';
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #ef4444;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            cursor: pointer;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-
-        /* CONTENT */
-        .content {
-            padding: 2rem;
-        }
-
-        /* STAT CARDS */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.75rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border-top: 4px solid transparent;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px rgba(0,0,0,0.1);
-        }
-
-        .stat-card.students { border-top-color: #10b981; }
-        .stat-card.tutors { border-top-color: #6366f1; }
-        .stat-card.classes { border-top-color: #f59e0b; }
-        .stat-card.revenue { border-top-color: #ef4444; }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            line-height: 1;
-        }
-
-        .stat-label {
-            color: #64748b;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .revenue-change {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            color: #10b981;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-
-        /* MAIN SECTION */
-        .main-section {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        /* STUDENTS TABLE */
-        .students-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 1.75rem 2rem;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .students-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .students-table th,
-        .students-table td {
-            padding: 1.25rem 2rem;
-            text-align: left;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .students-table th {
-            background: #f8fafc;
-            font-weight: 600;
-            color: #64748b;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 0.5rem 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #10b981, #34d399);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .status.active { background: #dcfce7; color: #166534; }
-        .status.completed { background: #fef3c7; color: #92400e; }
-
-        .btn {
-            background: #6366f1;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn:hover {
-            background: #5856eb;
-            transform: translateY(-1px);
-        }
-
-        /* CALENDAR */
-        .calendar-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
-
-        .calendar-header {
-            padding: 1.75rem 1.5rem;
-            text-align: center;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .calendar-month {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-            background: #f1f5f9;
-            padding: 1rem;
-        }
-
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 500;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .calendar-day.has-class {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .calendar-day:hover {
-            background: #e2e8f0;
-            transform: scale(1.05);
-        }
-
-        .schedule-list {
-            padding: 1.5rem;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .schedule-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 8px;
-            margin-bottom: 0.75rem;
-        }
-
-        /* BOTTOM SECTION */
-        .bottom-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .chart-card, .todo-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
-
-        .chart-container {
-            height: 350px;
-            padding: 2rem;
-        }
-
-        .todo-list {
-            padding: 2rem;
-        }
-
-        .todo-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem;
-            border-bottom: 1px solid #f1f5f9;
-            transition: all 0.3s ease;
-        }
-
-        .todo-item:hover {
-            background: #f8fafc;
-            border-radius: 8px;
-        }
-
-        .todo-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #d1d5db;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 0.25rem;
-            flex-shrink: 0;
-        }
-
-        .todo-checkbox.checked {
-            background: #10b981;
-            border-color: #10b981;
-        }
-
-        .todo-checkbox.checked::after {
-            content: '✓';
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 1200px) {
-            .main-section {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .main-container {
-                margin-left: 0;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .bottom-section {
-                grid-template-columns: 1fr;
-            }
-            .header {
-                padding: 1rem;
-            }
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
     </style>
 </head>
-<body>
+<body class="flex h-screen overflow-hidden">
+
     <!-- SIDEBAR -->
-    <div class="sidebar">
-        <div class="logo">
-            <i class="fas fa-laptop-code"></i>
-            WebDev Academy
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="#" class="nav-link active">
-                    <i class="fas fa-tachometer-alt"></i>
-                    Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-users"></i>
-                    Manajemen Siswa
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    Manajemen Tutor
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-book"></i>
-                    Materi & Kurikulum
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                    Laporan Keuangan
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    Settings
-                </a>
-            </li>
-        </ul>
-    </div>
+    <aside class="w-64 bg-slate-900 text-white flex flex-col">
+        <div class="p-6 text-2xl font-bold border-b border-slate-700">Agency Dev.</div>
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="#" class="block p-3 bg-indigo-600 rounded-lg">Dashboard</a>
+            <a href="#" class="block p-3 hover:bg-slate-800 rounded-lg transition text-slate-400">Siswa</a>
+            <a href="#" class="block p-3 hover:bg-slate-800 rounded-lg transition text-slate-400">Jadwal</a>
+            <a href="#" class="block p-3 hover:bg-slate-800 rounded-lg transition text-slate-400">Materi</a>
+        </nav>
+        <div class="p-4 border-t border-slate-700 text-xs text-slate-500 text-center">v1.0 Firebase Ready</div>
+    </aside>
 
     <!-- MAIN CONTENT -->
-    <div class="main-container">
+    <main class="flex-1 overflow-y-auto p-8">
+        
         <!-- HEADER -->
-        <header class="header">
-            <div class="breadcrumb">
-                <a href="#"><i class="fas fa-home"></i></a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Dashboard</span>
-            </div>
-            <div class="header-right">
-                <div class="notification">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="message">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="profile">
-                    <div class="avatar">AD</div>
-                    <span>Admin</span>
-                </div>
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-bold text-slate-800">Overview Dashboard</h1>
+            <div class="flex items-center gap-4">
+                <span class="text-sm text-slate-500">Admin Utama</span>
+                <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold">A</div>
             </div>
         </header>
 
-        <!-- CONTENT -->
-        <div class="content">
-            <!-- STATISTICS ROW -->
-            <div class="stats-grid">
-                <div class="stat-card students">
-                    <div class="stat-number">120</div>
-                    <div class="stat-label">Siswa Aktif</div>
-                </div>
-                <div class="stat-card tutors">
-                    <div class="stat-number">15</div>
-                    <div class="stat-label">Pengajar</div>
-                </div>
-                <div class="stat-card classes">
-                    <div class="stat-number">8</div>
-                    <div class="stat-label">Kelas Hari Ini</div>
-                </div>
-                <div class="stat-card revenue">
-                    <div class="stat-number">Rp 45.2M</div>
-                    <div class="stat-label">Pendapatan Bulan Ini</div>
-                    <div class="revenue-change">
-                        <i class="fas fa-arrow-up"></i>
-                        +12.5%
-                    </div>
-                </div>
+        <!-- STATS CARDS (ROW 1) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                <p class="text-slate-500 text-sm">Siswa Aktif</p>
+                <h3 class="text-3xl font-bold text-slate-800" id="stat-siswa">...</h3>
             </div>
-
-            <!-- MAIN SECTION -->
-            <div class="main-section">
-                <!-- STUDENTS TABLE -->
-                <div class="students-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Siswa Terbaru & Progress</h3>
-                    </div>
-                    <table class="students-table">
-                        <thead>
-                            <tr>
-                                <th>Nama Siswa</th>
-                                <th>Paket</th>
-                                <th>Progress</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Budi Santoso</strong><br><small>budi@email.com</small></td>
-                                <td>HTML Dasar</td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 75%"></div>
-                                    </div>
-                                    <small>75%</small>
-                                </td>
-                                <td><span class="status active">Aktif</span></td>
-                                <td><a href="#" class="btn"><i class="fas fa-eye"></i> View Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Sari Wulandari</strong><br><small>sari@email.com</small></td>
-                                <td>CSS Flexbox</td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 45%"></div>
-                                    </div>
-                                    <small>45%</small>
-                                </td>
-                                <td><span class="status active">Aktif</span></td>
-                                <td><a href="#" class="btn"><i class="fas fa-eye"></i> View Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Ahmad Fauzi</strong><br><small>ahmad@email.com</small></td>
-                                <td>JavaScript Basic</td>
-                                <td>
-                                    <div class="progress-bar">                                    
-                                  <div class="progress-fill" style="width: 90%"></div>
-                                    </div>
-                                    <small>90%</small>
-                                </td>
-                                <td><span class="status completed">Lulus</span></td>
-                                <td><a href="#" class="btn"><i class="fas fa-eye"></i> View Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Rina Kartika</strong><br><small>rina@email.com</small></td>
-                                <td>React Basic</td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 25%"></div>
-                                    </div>
-                                    <small>25%</small>
-                                </td>
-                                <td><span class="status active">Aktif</span></td>
-                                <td><a href="#" class="btn"><i class="fas fa-eye"></i> View Detail</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- CALENDAR -->
-                <div class="calendar-card">
-                    <div class="calendar-header">
-                        <div class="calendar-month">Desember 2024</div>
-                        <button class="btn" style="margin-top: 1rem; width: 100%;">
-                            <i class="fas fa-plus"></i> Tambah Jadwal
-                        </button>
-                    </div>
-                    <div class="calendar-grid">
-                        <div class="calendar-day"></div>
-                        <div class="calendar-day"></div>
-                        <div class="calendar-day"></div>
-                        <div class="calendar-day"></div>
-                        <div class="calendar-day"></div>
-                        <div class="calendar-day has-class">10</div>
-                        <div class="calendar-day has-class">11</div>
-                        <div class="calendar-day">17</div>
-                        <div class="calendar-day has-class">18</div>
-                        <div class="calendar-day">19</div>
-                        <div class="calendar-day">20</div>
-                        <div class="calendar-day">21</div>
-                        <div class="calendar-day">22</div>
-                        <div class="calendar-day has-class">24</div>
-                        <div class="calendar-day">25</div>
-                        <div class="calendar-day">26</div>
-                        <div class="calendar-day">27</div>
-                        <div class="calendar-day">28</div>
-                        <div class="calendar-day">29</div>
-                        <div class="calendar-day">30</div>
-                        <div class="calendar-day">31</div>
-                        <div class="calendar-day">1</div>
-                        <div class="calendar-day">2</div>
-                        <div class="calendar-day">3</div>
-                        <div class="calendar-day">4</div>
-                        <div class="calendar-day">5</div>
-                    </div>
-                    <div class="schedule-list">
-                        <div class="schedule-item">
-                            <div>
-                                <div><strong>14:00</strong> - Belajar Tag Form</div>
-                                <small>Tutor: Budi Santoso</small>
-                            </div>
-                            <i class="fas fa-edit" style="color: #6366f1; cursor: pointer;"></i>
-                        </div>
-                        <div class="schedule-item">
-                            <div>
-                                <div><strong>16:30</strong> - CSS Flexbox Layout</div>
-                                <small>Tutor: Sari Wulandari</small>
-                            </div>
-                            <i class="fas fa-edit" style="color: #6366f1; cursor: pointer;"></i>
-                        </div>
-                        <div class="schedule-item">
-                            <div>
-                                <div><strong>19:00</strong> - JavaScript Array</div>
-                                <small>Tutor: Ahmad Fauzi</small>
-                            </div>
-                            <i class="fas fa-edit" style="color: #6366f1; cursor: pointer;"></i>
-                        </div>
-                    </div>
-                </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                <p class="text-slate-500 text-sm">Target Bulan Ini</p>
+                <h3 class="text-3xl font-bold text-indigo-600">85%</h3>
             </div>
-
-            <!-- BOTTOM SECTION -->
-            <div class="bottom-section">
-                <!-- CHART -->
-                <div class="chart-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Tren Pendaftaran & Pendapatan</h3>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- TODO LIST -->
-                <div class="todo-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Quick Notes / To-Do</h3>
-                    </div>
-                    <div class="todo-list">
-                        <div class="todo-item">
-                            <div class="todo-checkbox"></div>
-                            <div>Follow up pendaftar baru (5 orang)</div>
-                        </div>
-                        <div class="todo-item">
-                            <div class="todo-checkbox checked"></div>
-                            <div>Update materi CSS Flexbox ✅</div>
-                        </div>
-                        <div class="todo-item">
-                            <div class="todo-checkbox"></div>
-                            <div>Review proposal tutor baru</div>
-                        </div>
-                        <div class="todo-item">
-                            <div class="todo-checkbox"></div>
-                            <div>Siapkan materi JavaScript DOM</div>
-                        </div>
-                        <div class="todo-item">
-                            <div class="todo-checkbox"></div>
-                            <div>Konfirmasi pembayaran bulan ini</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                <p class="text-slate-500 text-sm">Jadwal Hari Ini</p>
+                <h3 class="text-3xl font-bold text-slate-800">12</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                <p class="text-slate-500 text-sm">Revenue</p>
+                <h3 class="text-3xl font-bold text-emerald-500">M</h3>
             </div>
         </div>
-    </div>
 
-    <!-- JAVASCRIPT -->
-    <script>
-        // Chart.js untuk Grafik Pendapatan
-        const ctx = document.getElementById('revenueChart').getContext('2d');
-        const revenueChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-                datasets: [{
-                    label: 'Pendaftaran Siswa',
-                    data: [12, 19, 25, 22, 28, 35],
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }, {
-                    label: 'Pendapatan (Juta)',
-                    data: [15, 22, 28, 35, 42, 52],
-                    borderColor: '#6366f1',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#f1f5f9'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
+        <!-- TABLE SECTION (ROW 2) -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-100">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                <h2 class="font-semibold text-slate-800 text-lg">Pendaftaran Siswa Terbaru</h2>
+                <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 transition">+ Tambah Siswa</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-50 text-slate-500 text-sm uppercase">
+                        <tr>
+                            <th class="p-4">Nama Siswa</th>
+                            <th class="p-4">Paket Kursus</th>
+                            <th class="p-4 text-center">Progress Project</th>
+                            <th class="p-4 text-center">Status Bayar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-siswa" class="divide-y divide-slate-100 text-slate-700">
+                        <!-- Data dari Firebase akan muncul di sini -->
+                        <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading data dari Firebase...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-        // Interactive Todo Checkbox
-        document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('click', function() {
-                this.classList.toggle('checked');
+    </main>
+
+    <!-- FIREBASE SDK & LOGIC -->
+    <script type="module">
+        // Import Firebase dari CDN
+        import { initializeApp } from "https://gstatic.com";
+        import { getFirestore, collection, onSnapshot } from "https://gstatic.com";
+
+        // GANTI INI DENGAN CONFIG FIREBASE KAMU
+          const firebaseConfig = {
+            apiKey: "AIzaSyBW4UcmFjgsNvZiXhqajvYBp1qxt4fNyTc",
+            authDomain: "portal-tutor-casper.firebaseapp.com",
+            databaseURL: "https://portal-tutor-casper-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "portal-tutor-casper",
+            storageBucket: "portal-tutor-casper.firebasestorage.app",
+            messagingSenderId: "825179378295",
+            appId: "1:825179378295:web:fb112ec8a35c344816ec72",
+            measurementId: "G-1EK8TQQ786"
+            };
+        // Inisialisasi
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Referensi ke Koleksi 'siswa'
+        const colRef = collection(db, "siswa");
+
+        // Ambil Data Real-Time
+        onSnapshot(colRef, (snapshot) => {
+            let items = [];
+            let htmlTable = "";
+            
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                items.push(data);
+
+                // Warna Label Status
+                const statusColor = data.status_bayar ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700";
+                const statusText = data.status_bayar ? "Lunas" : "Menunggu";
+
+                htmlTable += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 font-medium">${data.nama}</td>
+                        <td class="p-4">${data.paket}</td>
+                        <td class="p-4">
+                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                <div class="bg-indigo-600 h-2 rounded-full" style="width: ${data.progress}%"></div>
+                            </div>
+                            <span class="text-[10px] text-slate-400">${data.progress}% Selesai</span>
+                        </td>
+                        <td class="p-4 text-center">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${statusText}</span>
+                        </td>
+                    </tr>
+                `;
             });
+
+            // Update UI
+            document.getElementById("tabel-siswa").innerHTML = htmlTable || '<tr><td colspan="4" class="p-4 text-center">Belum ada data.</td></tr>';
+            document.getElementById("stat-siswa").innerText = items.length;
         });
-
-        // Hover effects untuk stat cards
-        document.querySelectorAll('.stat-card').forEach(card => {
-            card.addEventListener('click', function() {
-                alert('Navigasi ke halaman terkait: ' + this.querySelector('.stat-label').textContent);
-            });
-        });
-
-        // Smooth scroll dan animations
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate stat numbers on scroll
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
-
-            document.querySelectorAll('.stat-card, .students-card, .calendar-card, .chart-card, .todo-card').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'all 0.6s ease';
-                observer.observe(el);
-            });
-        });
-        // Inisialisasi Firebase (Dapat dari Project Settings Firebase)
-const firebaseConfig = {
-  apiKey: "AIzaSyBW4UcmFjgsNvZiXhqajvYBp1qxt4fNyTc",
-  authDomain: "portal-tutor-casper.firebaseapp.com",
-  databaseURL: "https://portal-tutor-casper-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "portal-tutor-casper",
-  storageBucket: "portal-tutor-casper.firebasestorage.app",
-  messagingSenderId: "825179378295",
-  appId: "1:825179378295:web:fb112ec8a35c344816ec72",
-  measurementId: "G-1EK8TQQ786"
-};
-
-// Ambil data dari koleksi 'siswa' secara Real-Time
-db.collection("siswa").onSnapshot((querySnapshot) => {
-    let htmlContent = "";
-    querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        // Template baris tabel HTML
-        htmlContent += `
-            <tr>
-                <td>${data.identitas}</td>
-                <td>${data.paket}</td>
-                <td><progress value="${data.progress}" max="100"></progress></td>
-                <td>${data.status_bayar ? 'Lunas' : 'Belum'}</td>
-            </tr>
-        `;
-    });
-    // Masukkan ke dalam ID tabel di HTML kamu
-    document.getElementById("tabel-siswa").innerHTML = htmlContent;
     </script>
 </body>
 </html>
