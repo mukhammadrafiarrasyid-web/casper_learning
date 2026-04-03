@@ -565,137 +565,73 @@
             <!-- MAIN SECTION -->
             <div class="main-section">
                 <!-- STUDENTS TABLE -->
-               <body class="flex h-screen overflow-hidden">
+                <div class="students-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Siswa Terbaru & Progress</h3>
+                    </div>
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Nama Siswa</th>
+                                <th>Paket</th>
+                                <th>Progress</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Budi Santoso</strong><br><small>budi@email.com</small></td>
+                                <td>HTML Dasar</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                    <small>75%</small>
+                                </td>
+                                <td><span class="status active">Aktif</span></td>
+                                <td><a href="#" class="btn"><i class="fas fa-eye"></i> View Detail</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sari Wulandari</strong><br><small>sari@email.com</small></td>
+                                <td>CSS Flexbox</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 45%"></div>
+                                    </div>
+                                    <small>45%</small>
+                                </td>
+                                <td><span class="status active">Aktif</span></td>
+                                <td><a href="#" class="btn"><i class="fas fa-eye"></i> View Detail</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ahmad Fauzi</strong><br><small>ahmad@email.com</small></td>
+                                <td>JavaScript Basic</td>
+                                <td>
+                                    <div class="progress-bar">
+                                                                            <div class="progress-fill" style="width: 90%"></div>
+                                    </div>
+                                    <small>90%</small>
+                                </td>
+                                <td><span class="status completed">Lulus</span></td>
+                                <td><a href="#" class="btn"><i class="fas fa-eye"></i> View Detail</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rina Kartika</strong><br><small>rina@email.com</small></td>
+                                <td>React Basic</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 25%"></div>
+                                    </div>
+                                    <small>25%</small>
+                                </td>
+                                <td><span class="status active">Aktif</span></td>
+                                <td><a href="#" class="btn"><i class="fas fa-eye"></i> View Detail</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-    <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-900 text-white flex flex-col">
-        <div class="p-6 text-2xl font-bold border-b border-slate-700">Agency Dev.</div>
-        <nav class="flex-1 p-4 space-y-2">
-            <a href="#" class="block p-3 bg-indigo-600 rounded-lg">Dashboard</a>
-            <a href="#" class="block p-3 hover:bg-slate-800 rounded-lg transition text-slate-400">Siswa</a>
-            <a href="#" class="block p-3 hover:bg-slate-800 rounded-lg transition text-slate-400">Jadwal</a>
-            <a href="#" class="block p-3 hover:bg-slate-800 rounded-lg transition text-slate-400">Materi</a>
-        </nav>
-        <div class="p-4 border-t border-slate-700 text-xs text-slate-500 text-center">v1.0 Firebase Ready</div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 overflow-y-auto p-8">
-        
-        <!-- HEADER -->
-        <header class="flex justify-between items-center mb-8">
-            <h1 class="text-2xl font-bold text-slate-800">Overview Dashboard</h1>
-            <div class="flex items-center gap-4">
-                <span class="text-sm text-slate-500">Admin Utama</span>
-                <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold">A</div>
-            </div>
-        </header>
-
-        <!-- STATS CARDS (ROW 1) -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                <p class="text-slate-500 text-sm">Siswa Aktif</p>
-                <h3 class="text-3xl font-bold text-slate-800" id="stat-siswa">...</h3>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                <p class="text-slate-500 text-sm">Target Bulan Ini</p>
-                <h3 class="text-3xl font-bold text-indigo-600">85%</h3>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                <p class="text-slate-500 text-sm">Jadwal Hari Ini</p>
-                <h3 class="text-3xl font-bold text-slate-800">12</h3>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                <p class="text-slate-500 text-sm">Revenue</p>
-                <h3 class="text-3xl font-bold text-emerald-500">M</h3>
-            </div>
-        </div>
-
-        <!-- TABLE SECTION (ROW 2) -->
-        <section class="bg-white rounded-xl shadow-sm border border-slate-100">
-            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
-                <h2 class="font-semibold text-slate-800 text-lg">Pendaftaran Siswa Terbaru</h2>
-                <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 transition">+ Tambah Siswa</button>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="bg-slate-50 text-slate-500 text-sm uppercase">
-                        <tr>
-                            <th class="p-4">Nama Siswa</th>
-                            <th class="p-4">Paket Kursus</th>
-                            <th class="p-4 text-center">Progress Project</th>
-                            <th class="p-4 text-center">Status Bayar</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabel-siswa" class="divide-y divide-slate-100 text-slate-700">
-                        <!-- Data dari Firebase akan muncul di sini -->
-                        <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading data dari Firebase...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FIREBASE SDK & LOGIC -->
-    <script type="module">
-        // Import Firebase dari CDN
-        import { initializeApp } from "https://gstatic.com";
-        import { getFirestore, collection, onSnapshot } from "https://gstatic.com";
-
-        // GANTI INI DENGAN CONFIG FIREBASE KAMU
-          const firebaseConfig = {
-            apiKey: "AIzaSyBW4UcmFjgsNvZiXhqajvYBp1qxt4fNyTc",
-            authDomain: "portal-tutor-casper.firebaseapp.com",
-            databaseURL: "https://portal-tutor-casper-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "portal-tutor-casper",
-            storageBucket: "portal-tutor-casper.firebasestorage.app",
-            messagingSenderId: "825179378295",
-            appId: "1:825179378295:web:fb112ec8a35c344816ec72",
-            measurementId: "G-1EK8TQQ786"
-            };
-        // Inisialisasi
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Referensi ke Koleksi 'siswa'
-        const colRef = collection(db, "siswa");
-
-        // Ambil Data Real-Time
-        onSnapshot(colRef, (snapshot) => {
-            let items = [];
-            let htmlTable = "";
-            
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                items.push(data);
-
-                // Warna Label Status
-                const statusColor = data.status_bayar ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700";
-                const statusText = data.status_bayar ? "Lunas" : "Menunggu";
-
-                htmlTable += `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-4 font-medium">${data.nama}</td>
-                        <td class="p-4">${data.paket}</td>
-                        <td class="p-4">
-                            <div class="w-full bg-slate-200 rounded-full h-2">
-                                <div class="bg-indigo-600 h-2 rounded-full" style="width: ${data.progress}%"></div>
-                            </div>
-                            <span class="text-[10px] text-slate-400">${data.progress}% Selesai</span>
-                        </td>
-                        <td class="p-4 text-center">
-                            <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${statusText}</span>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            // Update UI
-            document.getElementById("tabel-siswa").innerHTML = htmlTable || '<tr><td colspan="4" class="p-4 text-center">Belum ada data.</td></tr>';
-            document.getElementById("stat-siswa").innerText = items.length;
-        });
-    </script>
                 <!-- CALENDAR -->
                 <div class="calendar-card">
                     <div class="calendar-header">
@@ -734,7 +670,156 @@
                     </div>
                     <div class="schedule-list">
                         <div class="schedule-item">
+                            <div>
+                                <div><strong>14:00</strong> - Belajar Tag Form</div>
+                                <small>Tutor: Budi Santoso</small>
+                            </div>
+                            <i class="fas fa-edit" style="color: #6366f1; cursor: pointer;"></i>
                         </div>
+                        <div class="schedule-item">
+                            <div>
+                                <div><strong>16:30</strong> - CSS Flexbox Layout</div>
+                                <small>Tutor: Sari Wulandari</small>
+                            </div>
+                            <i class="fas fa-edit" style="color: #6366f1; cursor: pointer;"></i>
+                        </div>
+                        <div class="schedule-item">
+                            <div>
+                                <div><strong>19:00</strong> - JavaScript Array</div>
+                                <small>Tutor: Ahmad Fauzi</small>
+                            </div>
+                            <i class="fas fa-edit" style="color: #6366f1; cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM SECTION -->
+            <div class="bottom-section">
+                <!-- CHART -->
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tren Pendaftaran & Pendapatan</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- TODO LIST -->
+                <div class="todo-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Quick Notes / To-Do</h3>
+                    </div>
+                    <div class="todo-list">
+                        <div class="todo-item">
+                            <div class="todo-checkbox"></div>
+                            <div>Follow up pendaftar baru (5 orang)</div>
+                        </div>
+                        <div class="todo-item">
+                            <div class="todo-checkbox checked"></div>
+                            <div>Update materi CSS Flexbox ✅</div>
+                        </div>
+                        <div class="todo-item">
+                            <div class="todo-checkbox"></div>
+                            <div>Review proposal tutor baru</div>
+                        </div>
+                        <div class="todo-item">
+                            <div class="todo-checkbox"></div>
+                            <div>Siapkan materi JavaScript DOM</div>
+                        </div>
+                        <div class="todo-item">
+                            <div class="todo-checkbox"></div>
+                            <div>Konfirmasi pembayaran bulan ini</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Chart.js untuk Grafik Pendapatan
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                datasets: [{
+                    label: 'Pendaftaran Siswa',
+                    data: [12, 19, 25, 22, 28, 35],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Pendapatan (Juta)',
+                    data: [15, 22, 28, 35, 42, 52],
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f1f5f9'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Interactive Todo Checkbox
+        document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('click', function() {
+                this.classList.toggle('checked');
+            });
+        });
+
+        // Hover effects untuk stat cards
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('click', function() {
+                alert('Navigasi ke halaman terkait: ' + this.querySelector('.stat-label').textContent);
+            });
+        });
+
+        // Smooth scroll dan animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate stat numbers on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.stat-card, .students-card, .calendar-card, .chart-card, .todo-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
 </body>
 </html>
                                        
